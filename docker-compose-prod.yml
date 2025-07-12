@@ -1,0 +1,60 @@
+services:
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: app_user
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: app_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./postgres-init/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    ports:
+      - "5432:5432"
+
+  broker:
+    image: app-broker:latest
+    restart: always
+    ports:
+      - "6379:6379"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    environment:
+      - DJANGO_ALLOWED_HOSTS=localhost
+    depends_on:
+      - db
+      - broker
+    ports:
+      - "8000:8000"
+
+  worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    environment:
+      - CELERY_BROKER_URL=redis://broker:6379/0
+    command: celery -A app worker --loglevel=info
+    depends_on:
+      - db
+      - broker
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    ports:
+      - "4173:4173"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata: 

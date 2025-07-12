@@ -1,0 +1,36 @@
+# Development Dockerfile for local development
+FROM node:20-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies for building native modules if needed
+RUN apk add --no-cache \
+    python3 \
+    make \
+    g++ \
+    git
+
+# Copy package files first for better caching
+COPY package.json yarn.lock ./
+
+# Install dependencies (including dev dependencies for development)
+RUN yarn install --frozen-lockfile
+
+# Install TypeScript types that might be missing
+RUN yarn add --dev @types/node || true
+
+# Copy source code
+COPY . .
+
+# Create a directory for Vite cache and ensure proper permissions
+RUN mkdir -p /app/node_modules/.vite && \
+    chmod -R 777 /app/node_modules/.vite && \
+    chmod -R 755 /app && \
+    chmod -R 777 /app/node_modules
+
+# Expose port for Vite dev server
+EXPOSE 5173
+
+# Default command (will be overridden by docker-compose)
+CMD ["yarn", "dev", "--host", "0.0.0.0"]

@@ -1,0 +1,82 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    command: python manage.py runserver 0.0.0.0:8000
+    user: "${UID}:${GID}"
+    volumes:
+      - ./backend:/app
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+    networks:
+      - appnet
+
+  worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    command: celery -A app worker --loglevel=info
+    user: "${UID}:${GID}"
+    volumes:
+      - ./backend:/app
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+    networks:
+      - appnet
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    command: yarn dev -- --host
+    user: "${UID}:${GID}"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules  # Prevent host node_modules from overriding container's
+    env_file:
+      - .env
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    networks:
+      - appnet
+
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_DB: app_db
+      POSTGRES_USER: app_user
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./postgres-init/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    ports:
+      - "5432:5432"
+    networks:
+      - appnet
+
+  redis:
+    image: redis:7
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - appnet
+
+volumes:
+  pgdata:
+
+networks:
+  appnet:
+    driver: bridge 
