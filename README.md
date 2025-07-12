@@ -15,6 +15,14 @@ A starter kit for bootstrapping projects by [tedmdelacruz](https://github.com/te
   docker-compose -f docker-compose-prod.yml up --build
   ```
 
-Backend: http://localhost:8000
-Django Admin: http://localhost:8000/admin
-Frontend: http://localhost:4173
+- Backend: http://localhost:8000
+- Django Admin: http://localhost:8000/admin
+- Frontend: http://localhost:4173
+
+## Setup
+
+Simply run the following to get the latest release:
+
+```sh
+curl -sSL https://raw.githubusercontent.com/tedmdelacruz/bootstrap/refs/heads/master/start.sh | bash
+```
