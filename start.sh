@@ -1,16 +1,27 @@
 #!/bin/bash
 
 # Bootstrap Starter Kit Installer
-# Usage: curl -sSL https://raw.githubusercontent.com/tedmdelacruz/bootstrap/refs/heads/master/start.sh | bash
+# Usage: curl -sSL https://raw.githubusercontent.com/tedmdelacruz/bootstrap/refs/heads/master/start.sh | bash -s -- <project-name>
 
 set -e
 
+# Check if project name is provided
+if [ $# -eq 0 ]; then
+    echo "❌ Error: Project name is required"
+    echo "Usage: curl -sSL https://raw.githubusercontent.com/tedmdelacruz/bootstrap/refs/heads/master/start.sh | bash -s -- <project-name>"
+    echo "Example: curl -sSL https://raw.githubusercontent.com/tedmdelacruz/bootstrap/refs/heads/master/start.sh | bash -s -- my-awesome-app"
+    exit 1
+fi
+
+PROJECT_NAME="$1"
+
 echo "🚀 Bootstrap Starter Kit Installer"
 echo "======================================"
+echo "📝 Project name: $PROJECT_NAME"
 
-# Check if bootstrap directory already exists
-if [ -d "bootstrap" ]; then
-    echo "❌ Directory 'bootstrap' already exists. Please remove it or choose a different location."
+# Check if project directory already exists
+if [ -d "$PROJECT_NAME" ]; then
+    echo "❌ Directory '$PROJECT_NAME' already exists. Please remove it or choose a different name."
     exit 1
 fi
 
@@ -51,12 +62,12 @@ fi
 
 # Move to the original location
 cd - > /dev/null
-mv "$TEMP_DIR/$EXTRACTED_DIR" bootstrap
+mv "$TEMP_DIR/$EXTRACTED_DIR" "$PROJECT_NAME"
 
-echo "✅ Bootstrap starter kit successfully installed to './bootstrap'"
+echo "✅ Bootstrap starter kit successfully installed to './$PROJECT_NAME'"
 echo ""
 echo "🎯 Next steps:"
-echo "   1. cd bootstrap"
+echo "   1. cd $PROJECT_NAME"
 echo "   2. cp .env.example .env"
 echo "   3. Edit .env with your configuration"
 echo "   4. docker compose up -d --build"

@@ -24,5 +24,5 @@ A starter kit for bootstrapping projects by [tedmdelacruz](https://github.com/te
 Simply run the following to get the latest release:
 
 ```sh
-curl -sSL https://raw.githubusercontent.com/tedmdelacruz/bootstrap/refs/heads/master/start.sh | bash
+curl -sSL https://raw.githubusercontent.com/tedmdelacruz/bootstrap/refs/heads/master/start.sh | bash -s -- my-project-name
 ```
