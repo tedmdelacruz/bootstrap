@@ -15,7 +15,7 @@ fi
 
 PROJECT_NAME="$1"
 
-echo "Bootstrap Starter Kit Installer"
+echo "Starter Kit Installer"
 echo "======================================"
 echo "Project name: $PROJECT_NAME"
 
@@ -46,14 +46,14 @@ if [ -z "$LATEST_RELEASE_URL" ]; then
 fi
 
 echo "Downloading latest release..."
-curl -L -o "$TEMP_DIR/bootstrap.zip" "$LATEST_RELEASE_URL"
+curl -L -o "$TEMP_DIR/starter-kit.zip" "$LATEST_RELEASE_URL"
 
 echo "Extracting files..."
 cd "$TEMP_DIR"
-unzip -q bootstrap.zip
+unzip -q starter-kit.zip
 
 # Find the extracted directory (GitHub creates a directory with repo-commit format)
-EXTRACTED_DIR=$(find . -maxdepth 1 -type d -name "tedmdelacruz-bootstrap-*" | head -1)
+EXTRACTED_DIR=$(find . -maxdepth 1 -type d -name "tedmdelacruz-starter-kit-*" | head -1)
 
 if [ -z "$EXTRACTED_DIR" ]; then
     echo "❌ Failed to find extracted directory"
@@ -64,7 +64,7 @@ fi
 cd - > /dev/null
 mv "$TEMP_DIR/$EXTRACTED_DIR" "$PROJECT_NAME"
 
-echo "✅ Bootstrap starter kit successfully installed to './$PROJECT_NAME'"
+echo "✅ Starter kit successfully installed to './$PROJECT_NAME'"
 echo ""
 echo "Next steps:"
 echo "   1. cd $PROJECT_NAME"
