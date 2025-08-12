@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Set your registry and context
+DO_REGISTRY=registry.digitalocean.com/my-username
+
+# Build images
+docker compose -f docker-compose-prod.yml build
+
+# Tag images (update these names if your images are named differently)
+docker tag my-project-frontend $DO_REGISTRY/my-project-frontend:latest
+docker tag my-project-backend $DO_REGISTRY/my-project-backend:latest
+docker tag my-project-worker $DO_REGISTRY/my-project-worker:latest
+docker tag my-project-broker $DO_REGISTRY/my-project-broker:latest
+
+# Push images
+docker push $DO_REGISTRY/my-projects-frontend:latest
+docker push $DO_REGISTRY/my-projects-backend:latest
+docker push $DO_REGISTRY/my-projects-worker:latest
+docker push $DO_REGISTRY/my-projects-broker:latest
+
+echo "Build, tag, and push complete!"
