@@ -27,7 +27,7 @@ fi
 
 # Create temporary directory
 TEMP_DIR=$(mktemp -d)
-echo "📁 Created temporary directory: $TEMP_DIR"
+echo "Created temporary directory: $TEMP_DIR"
 
 # Function to cleanup on exit
 cleanup() {
