@@ -4,7 +4,6 @@ services:
       context: ./backend
       dockerfile: Dockerfile.dev
     command: python manage.py runserver 0.0.0.0:8000
-    user: "${UID}:${GID}"
     volumes:
       - ./backend:/app
     env_file:
@@ -22,7 +21,6 @@ services:
       context: ./backend
       dockerfile: Dockerfile.dev
     command: celery -A app worker --loglevel=info
-    user: "${UID}:${GID}"
     volumes:
       - ./backend:/app
     env_file:
@@ -38,7 +36,6 @@ services:
       context: ./frontend
       dockerfile: Dockerfile.dev
     command: yarn dev -- --host
-    user: "${UID}:${GID}"
     volumes:
       - ./frontend:/app
       - /app/node_modules  # Prevent host node_modules from overriding container's
