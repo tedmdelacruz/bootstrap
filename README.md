@@ -46,7 +46,7 @@ docker compose exec backend ./manage.py test -v 3 --keepdb
 - Base API: http://localhost:8000/api
 - API Docs: http://localhost:8000/api/docs
 - Django Admin: http://localhost:8000/admin
-- React Frontend: http://localhost:4173
+- React Frontend: http://localhost:5173
 
 ## Production Testing (Docker Compose)
 
