@@ -151,6 +151,8 @@ const Navbar1 = ({
   const [loading, setLoading] = useState(false);
   const [editFirstName, setEditFirstName] = useState("");
   const [editLastName, setEditLastName] = useState("");
+  const [editBio, setEditBio] = useState("");
+  const [editMobile, setEditMobile] = useState("");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -161,6 +163,8 @@ const Navbar1 = ({
       setUserInfo(user);
       setEditFirstName(user?.first_name || "");
       setEditLastName(user?.last_name || "");
+      setEditBio(user?.bio || "");
+      setEditMobile(user?.mobile || "");
       setError(null);
       setLoading(false);
     }
@@ -174,6 +178,8 @@ const Navbar1 = ({
       await updateProfile({
         first_name: editFirstName,
         last_name: editLastName,
+        bio: editBio,
+        mobile: editMobile,
         username: userInfo.username,
         email: userInfo.email,
       });
@@ -265,6 +271,26 @@ const Navbar1 = ({
                         disabled={saving}
                       />
                     </div>
+                    <div>
+                      <div className="font-semibold">Bio:</div>
+                      <textarea
+                        className="w-full border rounded px-2 py-1 mt-1 min-h-[80px]"
+                        value={editBio}
+                        onChange={e => setEditBio(e.target.value)}
+                        placeholder="Tell us about yourself..."
+                        disabled={saving}
+                      />
+                    </div>
+                    <div>
+                      <div className="font-semibold">Mobile:</div>
+                      <input
+                        className="w-full border rounded px-2 py-1 mt-1"
+                        value={editMobile}
+                        onChange={e => setEditMobile(e.target.value)}
+                        placeholder="Mobile number"
+                        disabled={saving}
+                      />
+                    </div>
                     {error && <div className="text-red-500 text-sm">{error}</div>}
                     {success && <div className="text-green-600 text-sm">Profile updated!</div>}
                     <div className="flex justify-end gap-2 pt-2">
@@ -353,6 +379,26 @@ const Navbar1 = ({
                           value={editLastName}
                           onChange={e => setEditLastName(e.target.value)}
                           placeholder="Last name"
+                          disabled={saving}
+                        />
+                      </div>
+                      <div>
+                        <div className="font-semibold">Bio:</div>
+                        <textarea
+                          className="w-full border rounded px-2 py-1 mt-1 min-h-[80px]"
+                          value={editBio}
+                          onChange={e => setEditBio(e.target.value)}
+                          placeholder="Tell us about yourself..."
+                          disabled={saving}
+                        />
+                      </div>
+                      <div>
+                        <div className="font-semibold">Mobile:</div>
+                        <input
+                          className="w-full border rounded px-2 py-1 mt-1"
+                          value={editMobile}
+                          onChange={e => setEditMobile(e.target.value)}
+                          placeholder="Mobile number"
                           disabled={saving}
                         />
                       </div>

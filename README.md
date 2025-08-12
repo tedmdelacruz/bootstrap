@@ -26,8 +26,27 @@ A Django + React TypeScript starter kit for bootstrapping projects by [tedmdelac
 Start the services:
 
 ```sh
+# Build the images
 docker compose up -d --build
+
+# Run the DB migrations
+docker compose exec backend ./manage.py migrate
+
+# Create a superuser
+docker compose exec backend ./manage.py createsuperuser
 ```
+
+Run the tests:
+
+```sh
+docker compose exec backend ./manage.py test -v 3 --keepdb
+```
+
+## URLs
+- Base API: http://localhost:8000/api
+- API Docs: http://localhost:8000/api/docs
+- Django Admin: http://localhost:8000/admin
+- React Frontend: http://localhost:4173
 
 ## Production Testing (Docker Compose)
 
@@ -36,17 +55,13 @@ Use `docker-compose-prod.yml` to test the stack locally with production settings
 Start all services:
 
 ```sh
-docker-compose -f docker-compose-prod.yml up --build
+docker compose -f docker-compose-prod.yml up --build
 ```
 
-- Backend: http://localhost:8000
-- Django Admin: http://localhost:8000/admin
-- Frontend: http://localhost:4173
+## Usage
 
-## Setup
-
-Simply run the following to get the latest release:
+Run the following script to fetch the latest release into a directory named `my-project`:
 
 ```sh
-curl -sSL https://raw.githubusercontent.com/tedmdelacruz/starter-kit/refs/heads/master/start.sh | bash -s -- my-project-name
+curl -sSL https://raw.githubusercontent.com/tedmdelacruz/starter-kit/refs/heads/master/start.sh | bash -s -- my-project
 ```
